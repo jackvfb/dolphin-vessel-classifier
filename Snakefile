@@ -6,6 +6,8 @@ rule subset:
   output:
     temp("data/{date}/train_and_val.0.csv"),
     "data/{date}/test.csv"
+  log:
+    "logs/{date}/subset.log"
   script:
     "code/subset.R"
     
@@ -14,6 +16,8 @@ rule balance:
     "data/{date}/train_and_val.0.csv"
   output:
     "data/{date}/train_and_val.csv"
+  log:
+    "logs/{date}/balance.log"
   script:
     "code/balance.R"
     
@@ -27,6 +31,16 @@ rule split:
     "data/{date}/train.csv"
   script:
     "code/split.R"
+
+rule seq_fs:
+  input:
+    "data/{date}/train_and_val.csv"
+  output:
+    "data/{date}/fs.rds"
+  params:
+    v = 5
+  script:
+    "code/seqfs.R"
 
 rule test:
   input:
