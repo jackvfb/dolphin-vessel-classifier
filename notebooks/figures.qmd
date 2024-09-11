@@ -1,0 +1,93 @@
+---
+title: "Reproduction of figures from Diamant et al. 2024"
+author: "Jackson Vanfleet-Brown"
+format: html
+echo: false
+---
+
+```{r message=FALSE}
+
+library(tidyverse)
+library(tidymodels)
+library(targets)
+library(here)
+
+here::i_am("notebooks/figures.qmd")
+
+tar_config_set(store = here("_targets"))
+tar_load(c("study_data", "combined_predictions"))
+```
+
+## Figure 4
+
+Reproduction shown below in @fig-fig4
+
+```{r}
+#| label: fig-fig4
+
+ggplot(study_data)+
+  geom_histogram(aes(x=whistle_num, fill = label),
+                 binwidth = 10,
+                 position=position_dodge())
+```
+
+## Figure 5
+
+Reproduction shown below in @fig-fig5
+
+```{r results="hide"}
+#| label: fig-fig5
+#| fig-cap: "Histograms of whistle features, with and without vessel."
+#| fig-subcap: 
+#|     - "Whistle length"
+#|     - "Whistle overlap"
+#|     - "Number of Clusters"
+#|     - "Harmony Rate"
+
+vars_wanted <- c("whistle_length", "harmony_num", "whistle_overlap", "cluster_num")
+
+binwidths <- c(0.05, 1, 1, 1)
+
+make_plot <- function(x, y) {
+  ggplot(x) +
+    geom_histogram(aes(x= value, fill = label),
+                   position = position_dodge(),
+                   binwidth = binwidths[grep(y, vars_wanted)]
+    )
+}
+
+study_data %>%
+  pivot_longer(cols=1:9, names_to = "var") %>%
+  nest(data=-var) %>%
+  filter(var %in% vars_wanted) %>%
+  mutate(plot = map2(data, var, ~ make_plot(.x, .y))) %>%
+  pull(plot)
+
+
+```
+
+## Prediction Results
+
+Reproduction of Figure 6 shown in @fig-fig6 below.
+
+```{r}
+#| label: fig-fig6
+#| fig-cap: "Classification results"
+#| 
+metrics_wanted <- c("accuracy", "sens")
+
+results <- combined_predictions %>%
+  nest(data = -svm) %>%
+  mutate(cf = map(data, ~ conf_mat(.x, truth, est))) %>%
+  mutate(summary = map(cf, ~ summary(.x))) %>%
+  mutate(metrics = map(summary, ~ filter(.x, .metric %in% metrics_wanted))) %>%
+  pull(metrics, name = "svm") %>%
+  list_rbind(names_to = "svm")
+
+ggplot(results) +
+  geom_bar(mapping = aes(x=svm, y=.estimate, fill = .metric),
+           position = position_dodge(),
+           stat = "identity")
+
+```
+
