@@ -1,17 +1,20 @@
 ---
 title: "Reproduction of figures from Diamant et al. 2024"
 author: "Jackson Vanfleet-Brown"
-editor_options: 
-  chunk_output_type: console
+format: html
+echo: false
 ---
 
-```{r}
+```{r message=FALSE}
+
 library(tidyverse)
 library(tidymodels)
 library(targets)
+library(here)
 
-setwd("../") # is there a better way to do this? Maybe using here()?
+here::i_am("notebooks/figures.qmd")
 
+tar_config_set(store = here("_targets"))
 tar_load(c("study_data", "combined_predictions"))
 ```
 
@@ -32,7 +35,7 @@ ggplot(study_data)+
 
 Reproduction shown below in @fig-fig5
 
-```{r}
+```{r results="hide"}
 #| label: fig-fig5
 #| fig-cap: "Histograms of whistle features, with and without vessel."
 #| fig-subcap: 
@@ -40,8 +43,6 @@ Reproduction shown below in @fig-fig5
 #|     - "Whistle overlap"
 #|     - "Number of Clusters"
 #|     - "Harmony Rate"
-#| echo: false
-#| results: 'hide'
 
 vars_wanted <- c("whistle_length", "harmony_num", "whistle_overlap", "cluster_num")
 
