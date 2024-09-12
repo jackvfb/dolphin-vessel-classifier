@@ -1,13 +1,13 @@
 ## Intro
 
-This project is dedicated to enhancing my computational research abilities. My objective here is to reproduce the results of [Diamant et al. (2024)](https://doi.org/10.1038/s41598-024-56654-6), a study on the observed changes in dolphin vocalizations in the presence of underwater radiated noise from ships.
+My objective here is to reproduce the results of [Diamant et al. (2024)](https://doi.org/10.1038/s41598-024-56654-6), a study on the observed changes in dolphin vocalizations in the presence of underwater radiated noise from ships.
 
 ### Citation for original study
 Diamant, R., Testolin, A., Shachar, I. et al. Observational study on the non-linear response of dolphins to the presence of vessels. Sci Rep 14, 6062 (2024). https://doi.org/10.1038/s41598-024-56654-6
 
 The study found that a machine learning-based classifier could be trained on whistle features to discriminate between whistles emitted in the presence of URN versus those that were not.
 
-## My strategy
+## Approach
 
 Using the feature file from the original study, I will attempt to replicate the logic and methodology of their model fitting, validating, and testing.
 
