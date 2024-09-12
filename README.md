@@ -22,7 +22,7 @@ Along the way, I am striving to make my project as reproducible as possible, usi
 
 ## Feedback
 
-Feedback from the public is much appreciated. Looking for more guidance from data scientists to improve my learning from this project. Thanks.
+Looking for feedback from knowledgeable individuals to improve my learning from this project. Thanks.
 
 ## Acknowledgements
 Funded through the Association for the Sciences of Limnology and Oceanography (ASLO) / Limnology and Oceanography Research Exchange (LOREX). More information about the program [here](https://www.aslo.org/lorex/).
