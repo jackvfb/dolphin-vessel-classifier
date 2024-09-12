@@ -11,14 +11,14 @@ read_study_data <- function(file_path) {
 subset_and_balance_training_data <- function(df, date_wanted) {
   result <- df %>%
     filter(date != date_wanted) %>%
-    slice_sample(n=1000) %>% # only for development
     select(-date)
   
   balanced_n <- min(count(result, label)$n)
   
   balanced_result <- result %>%
     group_by(label) %>%
-    slice_sample(n = balanced_n) %>%
+    # limit training data to 3000 observations for demonstration purposes
+    slice_sample(n = min(3000, balanced_n)) %>%
     ungroup()
   
   return(balanced_result)
@@ -48,11 +48,6 @@ do_model <- function(df) {
   
   fit(my_wf, df)
 }
-
-# Name
-# Do Prediction
-#
-#
 
 do_predict <- function(model, df) {
   tibble(truth = df$label,

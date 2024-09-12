@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Rprofile
+
+JUNK_FILE/
+_targets/
+
+/.quarto/

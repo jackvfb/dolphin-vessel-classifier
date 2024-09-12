@@ -3,11 +3,14 @@ library(targets)
 library(tarchetypes)
 library(future)
 library(tidyverse)
+library(here)
+
+here::i_am("_targets.R")
 
 plan(multisession)
 
 # File containing commands referenced in this pipeline
-source("R/functions.R")
+source(here("R", "functions.R"))
 
 # --- Individual Targets
 
@@ -21,7 +24,7 @@ source("R/functions.R")
 # with presence of or absence of URN in the "label" column.
 # See Diamant et al. (2024) for details.
 
-T1 <- tar_target(raw_data, "study_data.csv", format = "file")
+T1 <- tar_target(raw_data, here("data", "study_data.csv"), format = "file")
 
 # 2
 #
